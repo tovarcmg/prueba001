@@ -5,11 +5,10 @@
 //  Created by tovarchavez on 17/08/25.
 //
 
-
 import Foundation
 
 protocol LoginBusinessLogic {
-    func authenticate(request: Login.Authenticate.Request)
+    func authenticate(request: Login.Authenticate.Request, mmm: ParentRequestBody)
 }
 
 protocol LoginDataStore {
@@ -19,10 +18,30 @@ protocol LoginDataStore {
 class LoginInteractor: LoginBusinessLogic, LoginDataStore {
     var presenter: LoginPresentationLogic?
 
-    func authenticate(request: Login.Authenticate.Request) {
-        let isValid = request.email == "admin@example.com" && request.password == "1234"
-        let message = isValid ? "Login exitoso" : "Credenciales inválidas"
-        let response = Login.Authenticate.Response(success: isValid, message: message)
-        presenter?.presentLoginResult(response: response)
+    private lazy var worker: LoginWorkingLogic = LoginWorker()
+
+    func authenticate(request: Login.Authenticate.Request, mmm: ParentRequestBody) {
+
+        worker.getUsers(using: mmm) { [weak self]
+            
+            result in
+            guard let self = self else { return }
+
+            switch result {
+            case .success(let response):
+
+                let xxx = Login.Authenticate.Response(
+                    success: true,
+                    message: response.nombre
+                )
+                self.presenter?.presentLoginResult(response: xxx)
+
+            case .failure(let error):
+
+                self.presenter?.presentError(
+                    response: error.localizedDescription
+                )
+            }
+        }
     }
 }

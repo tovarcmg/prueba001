@@ -1,4 +1,12 @@
 //
+//  WebServiceUrlRequestError.swift
+//  prueba001
+//
+//  Created by tovarchavez on 24/08/25.
+//
+
+
+//
 //  WebServiceUrlRequestInitializationError.swift
 //  PacoMax
 //

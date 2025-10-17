@@ -1,5 +1,13 @@
 //
 //  ParentRequestBody.swift
+//  prueba001
+//
+//  Created by tovarchavez on 24/08/25.
+//
+
+
+//
+//  ParentRequestBody.swift
 //  PacoMax
 //
 //  Created by Luis on 14/07/22.
@@ -10,12 +18,7 @@ import Foundation
 
 struct ParentRequestBody: Encodable {
     
-    let email: String
-    let numberOfKids: Int
-    let username: String
-    let password: String
-    let phoneNumber: String
-    let avatar: String
-    let userFullName: String
+    let usuario: String
+    let contrasena: String
     
 }

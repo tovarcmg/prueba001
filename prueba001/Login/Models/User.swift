@@ -10,6 +10,6 @@ import Foundation
 
 struct User: Decodable {
     
-    let accessTokenv: String
-    let studentAccessTokens: String
+    let id: Int
+    let nombre: String
 }

@@ -1,13 +1,5 @@
 //
-//  BoardWorkingLogic.swift
-//  prueba001
-//
-//  Created by tovarchavez on 24/08/25.
-//
-
-
-//
-//  BoardWorker.swift
+//  LoginWorker.swift
 //  PacoMax
 //
 //  Created by Luis on 05/07/22.
@@ -16,71 +8,47 @@
 
 import Foundation
 
-// MARK: - BoardWorkingLogic
+// MARK: - LoginWorkingLogic
 
 /// Defines the functions of the Worker.
-protocol BoardWorkingLogic {
-    
-    func getHeadOfDisplayInfo(completion: @escaping RequestCompletion<HeadOfDisplayResponse>)
-    func getTopics(completion: @escaping RequestCompletion<[Topic]>)
-    func getUsers(completion: @escaping RequestCompletion<[User]>)
+protocol LoginWorkingLogic {
+
+    func getUsers(
+        using credentials: ParentRequestBody,
+        completion: @escaping RequestCompletion<User>
+    )
 }
 
-// MARK: - BoardWorker
+// MARK: - LoginWorker
 
-final class BoardWorker: BoardWorkingLogic {
-    
+final class LoginWorker: LoginWorkingLogic {
+
     // MARK: - Private Properties
-    
+
     private let service = WebServiceClient()
 
     // MARK: - Working Logic
-    
-    func getHeadOfDisplayInfo(completion: @escaping RequestCompletion<HeadOfDisplayResponse>) {
-        
-        #warning("TODO: Update the accessToken once we can retrieve a student token.")
-        let headers = WebServiceHeader(accessToken: Constant.defaultAccessToken)
-        let request = HeadOfDisplayRequest(headers: headers.dictionary)
-        
-        service.perform(request: request, responseType: HeadOfDisplayResponse.self) { result in
-            switch result {
-            case .success(response: let response):
-                completion(.success(response: response))
-            case .failure(error: let error):
-                completion(.failure(error: error))
-            }
-        }
-    }
-    
-    func getTopics(completion: @escaping RequestCompletion<[Topic]>) {
-        
-        #warning("TODO: Update the accessToken once we can retrieve a student token.")
-        let headers = WebServiceHeader(accessToken: Constant.defaultAccessToken)
-        let request = TopicsRequest(headers: headers.dictionary)
-        
-        service.perform(request: request, responseType: [Topic].self) { result in
-            
-            switch result {
-            case .success(response: let response):
-                completion(.success(response: response))
-            case .failure(error: let error):
-                completion(.failure(error: error))
-            }
-        }
-    }
 
-    func getUsers(completion: @escaping RequestCompletion<[User]>) {
-        
-        #warning("TODO: Update the accessToken once we can retrieve a student token.")
-        let headers = WebServiceHeader(accessToken: Constant.defaultAccessToken)
-        let request = UsersRequest(headers: headers.dictionary)
-        
-        service.perform(request: request, responseType: [User].self) { result in
+    func getUsers(
+        using credentials: ParentRequestBody,
+        completion: @escaping RequestCompletion<User>
+    ) {
+
+        let headers = WebServiceHeader(accessToken: "mmm")
+
+        let request = UsersRequest(
+            headers: headers.dictionary,
+            body: credentials
+        )
+
+        service.perform(request: request, responseType: User.self) {
             
+            result in
+
             switch result {
-            case .success(response: let response):
+            case .success(let response):
                 completion(.success(response: response))
-            case .failure(error: let error):
+            case .failure(let error):
                 completion(.failure(error: error))
             }
         }
