@@ -13,10 +13,7 @@ import Foundation
 /// Defines the functions of the Worker.
 protocol MapaWorkingLogic {
 
-    func getUsers(
-        using credentials: ParentRequestBody,
-        completion: @escaping RequestCompletion<User>
-    )
+    
 }
 
 // MARK: - MapaWorker
@@ -29,29 +26,5 @@ final class MapaWorker: MapaWorkingLogic {
 
     // MARK: - Working Logic
 
-    func getUsers(
-        using credentials: ParentRequestBody,
-        completion: @escaping RequestCompletion<User>
-    ) {
-
-        let headers = WebServiceHeader(accessToken: "mmm")
-
-        let request = UsersRequest(
-            headers: headers.dictionary,
-            body: credentials
-        )
-
-        service.perform(request: request, responseType: User.self) {
-            
-            result in
-
-            switch result {
-            case .success(let response):
-                completion(.success(response: response))
-            case .failure(let error):
-                completion(.failure(error: error))
-            }
-        }
-    }
-
+    
 }

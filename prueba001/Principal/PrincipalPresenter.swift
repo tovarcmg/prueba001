@@ -19,13 +19,13 @@ class PrincipalPresenter: PrincipalPresentationLogic {
         let viewModel = Principal.Authenticate.ViewModel(
             displayMessage: response.message
         )
-        viewController?.displayPrincipalResult(viewModel: viewModel)
+        
     }
 
     func presentError(response: String) {
         let viewModel = Principal.Authenticate.ViewModel(
             displayMessage: "usuario o contrasena no valida"
         )
-        viewController?.displayPrincipalResult(viewModel: viewModel)
+        
     }
 }

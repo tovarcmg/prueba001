@@ -22,7 +22,7 @@ class PrincipalRouter: NSObject, PrincipalRoutingLogic, PrincipalDataPassing {
     var dataStore: PrincipalDataStore?
     
     func navigateToHome() {
-        let destination = PrincipalViewController()
+        let destination = MapaViewController()
         viewController?.navigationController?.pushViewController(destination, animated: true)
     }
 }

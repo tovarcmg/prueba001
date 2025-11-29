@@ -8,7 +8,7 @@
 import UIKit
 
 protocol PrincipalDisplayLogic: AnyObject {
-    func displayPrincipalResult(viewModel: Principal.Authenticate.ViewModel)
+
 }
 
 class PrincipalViewController: UIViewController, PrincipalDisplayLogic {
@@ -16,11 +16,13 @@ class PrincipalViewController: UIViewController, PrincipalDisplayLogic {
     var interactor: PrincipalBusinessLogic?
     var router: (NSObjectProtocol & PrincipalRoutingLogic & PrincipalDataPassing)?
 
-    let titleTextField = UILabel()
-    let emailTextField = UITextField()
-    let passwordTextField = UITextField()
-    let loginButton = UIButton(type: .system)
-    let resultLabel = UILabel()
+    let titleLabel = UILabel()
+    let opcion1Label = UILabel()
+    let opcion2Label = UILabel()
+    let opcion3Label = UILabel()
+    let buscarLabel = UILabel()
+    let destinoTextField = UITextField()
+    let buscarButton = UIButton(type: .system)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,31 +46,44 @@ class PrincipalViewController: UIViewController, PrincipalDisplayLogic {
 
     private func setupUI() {
         view.backgroundColor = .lightGray
-        titleTextField.text = "appVenton"
-        titleTextField.textAlignment = .center
-        titleTextField.textColor = .white
-        emailTextField.placeholder = "Correo"
-        emailTextField.borderStyle = .roundedRect
-        passwordTextField.placeholder = "Contrasena"
-        passwordTextField.borderStyle = .roundedRect
-        passwordTextField.isSecureTextEntry = true
+        
+        titleLabel.text = "appVenton"
+        titleLabel.textAlignment = .center
+        titleLabel.textColor = .white
+        titleLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 30)
+        
+        buscarLabel.text = "Buscar destino"
+        buscarLabel.textAlignment = .left
+        buscarLabel.textColor = .white
+        
+        destinoTextField.placeholder = "metro zocalo"
+        destinoTextField.borderStyle = .roundedRect
 
-        loginButton.setTitle("Principal", for: .normal)
-        loginButton.addTarget(
-            self,
-            action: #selector(loginTapped),
-            for: .touchUpInside
-        )
-        loginButton.tintColor = .white
-        loginButton.backgroundColor = .blue
-        loginButton.layer.cornerRadius = 5
+        buscarButton.setTitle("Buscar", for: .normal)
+        buscarButton.tintColor = .white
+        buscarButton.backgroundColor = .blue
+        buscarButton.layer.cornerRadius = 5
+        
+        opcion1Label.text = "Luis E Tovar (Spark/NBJ-12-IU)"
+        opcion1Label.textAlignment = .left
+        opcion1Label.textColor = .white
+        // Habilitar interacción en el label
+        opcion1Label.isUserInteractionEnabled = true
+        // Crear gesto de tap
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(labelTocado))
+        opcion1Label.addGestureRecognizer(tapGesture)
+        
+        opcion2Label.text = "Natalia Chavez (Aveo/PQO-33-DC)"
+        opcion2Label.textAlignment = .left
+        opcion2Label.textColor = .white
+        
+        opcion3Label.text = "Yareli Ibarra (FIAT/ACA-23-LK)"
+        opcion3Label.textAlignment = .left
+        opcion3Label.textColor = .white
 
-        resultLabel.textAlignment = .center
-        resultLabel.numberOfLines = 0
 
         let stack = UIStackView(arrangedSubviews: [
-            titleTextField, emailTextField, passwordTextField, loginButton,
-            resultLabel,
+            titleLabel, buscarLabel, destinoTextField, buscarButton, opcion1Label ,opcion2Label, opcion3Label
         ])
         stack.axis = .vertical
         stack.spacing = 12
@@ -76,7 +91,7 @@ class PrincipalViewController: UIViewController, PrincipalDisplayLogic {
 
         view.addSubview(stack)
         NSLayoutConstraint.activate([
-            stack.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            stack.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
             stack.leadingAnchor.constraint(
                 equalTo: view.leadingAnchor,
                 constant: 24
@@ -88,26 +103,9 @@ class PrincipalViewController: UIViewController, PrincipalDisplayLogic {
         ])
     }
 
-    @objc private func loginTapped() {
-        self.resultLabel.text = ""
-        let request = Principal.Authenticate.Request(
-            email: emailTextField.text ?? "",
-            password: passwordTextField.text ?? ""
-        )
-        
-        let credentialssss = ParentRequestBody(
-            usuario: emailTextField.text ?? "",
-            contrasena: passwordTextField.text ?? ""
-        )
-
-        interactor?.authenticate(request: request, mmm: credentialssss)
-    }
-
-    func displayPrincipalResult(viewModel: Principal.Authenticate.ViewModel) {
-        DispatchQueue.main.async {
-            self.resultLabel.text = viewModel.displayMessage
-        }
-    }
-
     
+    @objc func labelTocado() {
+        // Acción al tocar el label
+        router?.navigateToHome()
+    }
 }

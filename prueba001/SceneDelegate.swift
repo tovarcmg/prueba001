@@ -7,9 +7,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
 
         let window = UIWindow(windowScene: windowScene)
-        window.rootViewController = LoginViewController()
-        self.window = window
+        
+        // Instanciar LoginViewController
+        let loginVC = LoginViewController()
+
+        // Envolverlo en un NavigationController
+        let navController = UINavigationController(rootViewController: loginVC)
+
+        // Asignar a la ventana
+        window.rootViewController = navController
         window.makeKeyAndVisible()
+
+        self.window = window
+
     }
 }
 

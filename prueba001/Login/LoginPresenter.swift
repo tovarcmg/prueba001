@@ -17,8 +17,11 @@ class LoginPresenter: LoginPresentationLogic {
 
     func presentLoginResult(response: Login.Authenticate.Response) {
         let viewModel = Login.Authenticate.ViewModel(
-            displayMessage: response.message
+            displayMessage: "like",
         )
+        
+        
+            
         viewController?.displayLoginResult(viewModel: viewModel)
     }
 

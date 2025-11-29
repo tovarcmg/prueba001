@@ -45,11 +45,17 @@ class LoginViewController: UIViewController, LoginDisplayLogic {
 
     private func setupUI() {
         view.backgroundColor = .lightGray
+        
         titleTextField.text = "appVenton"
         titleTextField.textAlignment = .center
         titleTextField.textColor = .white
+        titleTextField.font = UIFont(name: "HelveticaNeue-Bold", size: 30)
+        
+        emailTextField.text = "luistovar"
         emailTextField.placeholder = "Correo"
         emailTextField.borderStyle = .roundedRect
+        
+        passwordTextField.text = "123123"
         passwordTextField.placeholder = "Contrasena"
         passwordTextField.borderStyle = .roundedRect
         passwordTextField.isSecureTextEntry = true
@@ -105,9 +111,15 @@ class LoginViewController: UIViewController, LoginDisplayLogic {
     }
 
     func displayLoginResult(viewModel: Login.Authenticate.ViewModel) {
-        DispatchQueue.main.async {
+        //DispatchQueue.main.async {
+        var resp = viewModel.displayMessage
+        
+        if resp == "like" {
+            router?.navigateToHome()
+        }else{
             self.resultLabel.text = viewModel.displayMessage
         }
+        //}
     }
 
     func hideKeyboardWhenTapped() {
