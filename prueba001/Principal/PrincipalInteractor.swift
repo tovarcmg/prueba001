@@ -8,7 +8,7 @@
 import Foundation
 
 protocol PrincipalBusinessLogic {
-    func authenticate(request: Principal.Authenticate.Request, mmm: ParentRequestBody)
+    func authenticate(destino: String)
 }
 
 protocol PrincipalDataStore {
@@ -20,9 +20,9 @@ class PrincipalInteractor: PrincipalBusinessLogic, PrincipalDataStore {
 
     private lazy var worker: PrincipalWorkingLogic = PrincipalWorker()
 
-    func authenticate(request: Principal.Authenticate.Request, mmm: ParentRequestBody) {
+    func authenticate(destino: String) {
 
-        worker.getUsers(using: mmm) { [weak self]
+        worker.getRutas(destino: destino) { [weak self]
             
             result in
             guard let self = self else { return }
@@ -30,11 +30,8 @@ class PrincipalInteractor: PrincipalBusinessLogic, PrincipalDataStore {
             switch result {
             case .success(let response):
 
-                let xxx = Principal.Authenticate.Response(
-                    success: true,
-                    message: response.nombre
-                )
-                self.presenter?.presentPrincipalResult(response: xxx)
+                 
+                self.presenter?.presentPrincipalResult(response: response)
 
             case .failure(let error):
 

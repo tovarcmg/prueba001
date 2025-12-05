@@ -8,18 +8,16 @@
 import Foundation
 
 protocol PrincipalPresentationLogic {
-    func presentPrincipalResult(response: Principal.Authenticate.Response)
+    func presentPrincipalResult(response: [Rutas])
     func presentError(response: String)
 }
 
 class PrincipalPresenter: PrincipalPresentationLogic {
     weak var viewController: PrincipalDisplayLogic?
 
-    func presentPrincipalResult(response: Principal.Authenticate.Response) {
-        let viewModel = Principal.Authenticate.ViewModel(
-            displayMessage: response.message
-        )
-        
+    func presentPrincipalResult(response: [Rutas]) {
+         
+        viewController?.displayRutas(response: response)
     }
 
     func presentError(response: String) {

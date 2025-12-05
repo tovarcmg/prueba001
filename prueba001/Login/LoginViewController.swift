@@ -48,7 +48,7 @@ class LoginViewController: UIViewController, LoginDisplayLogic {
         
         titleTextField.text = "appVenton"
         titleTextField.textAlignment = .center
-        titleTextField.textColor = .white
+        titleTextField.textColor = .black
         titleTextField.font = UIFont(name: "HelveticaNeue-Bold", size: 30)
         
         emailTextField.text = "luistovar"
@@ -67,7 +67,7 @@ class LoginViewController: UIViewController, LoginDisplayLogic {
             for: .touchUpInside
         )
         loginButton.tintColor = .white
-        loginButton.backgroundColor = .blue
+        loginButton.backgroundColor = .black
         loginButton.layer.cornerRadius = 5
 
         resultLabel.textAlignment = .center
@@ -112,7 +112,7 @@ class LoginViewController: UIViewController, LoginDisplayLogic {
 
     func displayLoginResult(viewModel: Login.Authenticate.ViewModel) {
         //DispatchQueue.main.async {
-        var resp = viewModel.displayMessage
+        let resp = viewModel.displayMessage
         
         if resp == "like" {
             router?.navigateToHome()

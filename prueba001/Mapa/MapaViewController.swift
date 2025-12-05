@@ -24,6 +24,7 @@ class MapaViewController: UIViewController, MapaDisplayLogic {
     let ubicacionDireccionLabel = UILabel()
     let buscarButton = UIButton(type: .system)
     let recomendacionLabel = UILabel()
+    let solicitarButton = UIButton(type: .system)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,6 +54,11 @@ class MapaViewController: UIViewController, MapaDisplayLogic {
         titleLabel.textColor = .white
         titleLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 30)
         
+        solicitarButton.setTitle("Solicitar", for: .normal)
+        solicitarButton.tintColor = .black
+        solicitarButton.backgroundColor = .white
+        solicitarButton.layer.cornerRadius = 5
+        
         conductorLabel.text = "Luis E Tovar (Spark/NBJ-12-IU)"
         conductorLabel.textAlignment = .left
         conductorLabel.textColor = .white
@@ -77,8 +83,8 @@ class MapaViewController: UIViewController, MapaDisplayLogic {
         ubicacionDireccionLabel.numberOfLines = 3
         
         buscarButton.setTitle("Ir a Google Maps", for: .normal)
-        buscarButton.tintColor = .white
-        buscarButton.backgroundColor = .blue
+        buscarButton.tintColor = .black
+        buscarButton.backgroundColor = .white
         buscarButton.layer.cornerRadius = 5
         
         recomendacionLabel.text = "Antes de abordar el vehículo, verifica que el modelo, color, matrícula y conductor coincidan con la información mostrada en la aplicación; si notas cualquier discrepancia, comportamiento inusual o te sientes incómodo, evita subir, cancela el viaje y repórtalo inmediatamente a través de la app. Tu seguridad es responsabilidad compartida, por lo que te recomendamos seguir estas medidas preventivas en todo momento."
@@ -87,7 +93,7 @@ class MapaViewController: UIViewController, MapaDisplayLogic {
         recomendacionLabel.numberOfLines = 10
         
         let stack = UIStackView(arrangedSubviews: [
-            titleLabel, conductorLabel, destinoLabel, destinoDireccionLabel, ubicacionLabel, ubicacionDireccionLabel, buscarButton, recomendacionLabel
+            titleLabel, conductorLabel, solicitarButton, destinoLabel, destinoDireccionLabel, ubicacionLabel, ubicacionDireccionLabel, buscarButton, recomendacionLabel
         ])
         stack.axis = .vertical
         stack.spacing = 12

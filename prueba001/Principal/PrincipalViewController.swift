@@ -9,6 +9,7 @@ import UIKit
 
 protocol PrincipalDisplayLogic: AnyObject {
 
+    func displayRutas(response: [Rutas])
 }
 
 class PrincipalViewController: UIViewController, PrincipalDisplayLogic {
@@ -23,7 +24,22 @@ class PrincipalViewController: UIViewController, PrincipalDisplayLogic {
     let buscarLabel = UILabel()
     let destinoTextField = UITextField()
     let buscarButton = UIButton(type: .system)
-
+    var stackMain : UIStackView = {
+        let s = UIStackView()
+        s.axis = .vertical
+        s.spacing = 12
+        s.translatesAutoresizingMaskIntoConstraints = false
+        return s
+    }()
+    
+    var stackDestinos : UIStackView = {
+        let s = UIStackView()
+        s.axis = .vertical
+        s.spacing = 12
+        s.translatesAutoresizingMaskIntoConstraints = false
+        return s
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
@@ -63,6 +79,8 @@ class PrincipalViewController: UIViewController, PrincipalDisplayLogic {
         buscarButton.tintColor = .white
         buscarButton.backgroundColor = .blue
         buscarButton.layer.cornerRadius = 5
+        let tapGestureeee = UITapGestureRecognizer(target: self, action: #selector(buscarRutas))
+        buscarButton.addGestureRecognizer(tapGestureeee)
         
         opcion1Label.text = "Luis E Tovar (Spark/NBJ-12-IU)"
         opcion1Label.textAlignment = .left
@@ -70,8 +88,8 @@ class PrincipalViewController: UIViewController, PrincipalDisplayLogic {
         // Habilitar interacción en el label
         opcion1Label.isUserInteractionEnabled = true
         // Crear gesto de tap
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(labelTocado))
-        opcion1Label.addGestureRecognizer(tapGesture)
+        //let tapGesture = UITapGestureRecognizer(target: self, action: #selector(labelTocado))
+        //opcion1Label.addGestureRecognizer(tapGesture)
         
         opcion2Label.text = "Natalia Chavez (Aveo/PQO-33-DC)"
         opcion2Label.textAlignment = .left
@@ -82,30 +100,52 @@ class PrincipalViewController: UIViewController, PrincipalDisplayLogic {
         opcion3Label.textColor = .white
 
 
-        let stack = UIStackView(arrangedSubviews: [
-            titleLabel, buscarLabel, destinoTextField, buscarButton, opcion1Label ,opcion2Label, opcion3Label
-        ])
-        stack.axis = .vertical
-        stack.spacing = 12
-        stack.translatesAutoresizingMaskIntoConstraints = false
+        stackMain.addArrangedSubview(titleLabel)
+        stackMain.addArrangedSubview(buscarLabel)
+        stackMain.addArrangedSubview(destinoTextField)
+        stackMain.addArrangedSubview(buscarButton)
+        stackMain.addArrangedSubview(stackDestinos)
+        
+        //stack.axis = .vertical
+        stackMain.spacing = 12
+        stackMain.translatesAutoresizingMaskIntoConstraints = false
 
-        view.addSubview(stack)
+        view.addSubview(stackMain)
         NSLayoutConstraint.activate([
-            stack.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
-            stack.leadingAnchor.constraint(
+            stackMain.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
+            stackMain.leadingAnchor.constraint(
                 equalTo: view.leadingAnchor,
                 constant: 24
             ),
-            stack.trailingAnchor.constraint(
+            stackMain.trailingAnchor.constraint(
                 equalTo: view.trailingAnchor,
                 constant: -24
             ),
         ])
     }
+    
+    @objc func buscarRutas() {
+        
+        interactor?.authenticate(destino: destinoTextField.text ?? "")
 
+    }
     
     @objc func labelTocado() {
         // Acción al tocar el label
         router?.navigateToHome()
+    }
+    
+    func displayRutas(response: [Rutas]) {
+        stackDestinos.arrangedSubviews.forEach { $0.removeFromSuperview() }
+
+        response.forEach { ruta in
+            let label = UILabel()
+            label.text = ruta.destino
+            label.isUserInteractionEnabled = true
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(labelTocado))
+            label.addGestureRecognizer(tapGesture)
+
+            stackDestinos.addArrangedSubview(label)
+        }
     }
 }

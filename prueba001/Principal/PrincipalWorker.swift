@@ -13,9 +13,9 @@ import Foundation
 /// Defines the functions of the Worker.
 protocol PrincipalWorkingLogic {
 
-    func getUsers(
-        using credentials: ParentRequestBody,
-        completion: @escaping RequestCompletion<User>
+    func getRutas(
+        destino: String,
+        completion: @escaping RequestCompletion<[Rutas]>
     )
 }
 
@@ -29,19 +29,16 @@ final class PrincipalWorker: PrincipalWorkingLogic {
 
     // MARK: - Working Logic
 
-    func getUsers(
-        using credentials: ParentRequestBody,
-        completion: @escaping RequestCompletion<User>
+    func getRutas(
+        destino: String,
+        completion: @escaping RequestCompletion<[Rutas]>
     ) {
 
-        let headers = WebServiceHeader(accessToken: "mmm")
-
-        let request = UsersRequest(
-            headers: headers.dictionary,
-            body: credentials
+        let request = PrincipalRequest(
+            urlString: "https://appventonapi-cpefgxg2gvekhshq.mexicocentral-01.azurewebsites.net/api/rutas/Lista/"+destino
         )
 
-        service.perform(request: request, responseType: User.self) {
+        service.perform(request: request, responseType: [Rutas].self) {
             
             result in
 
