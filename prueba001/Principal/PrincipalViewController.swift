@@ -126,8 +126,11 @@ class PrincipalViewController: UIViewController, PrincipalDisplayLogic {
     
     @objc func buscarRutas() {
         
-        interactor?.authenticate(destino: destinoTextField.text ?? "")
-
+        let destino: String = destinoTextField.text ?? ""
+        
+        if !destino.isEmpty {
+            interactor?.authenticate(destino: destino)
+        }
     }
     
     @objc func labelTocado() {
