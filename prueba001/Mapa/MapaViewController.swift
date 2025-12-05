@@ -26,6 +26,20 @@ class MapaViewController: UIViewController, MapaDisplayLogic {
     let recomendacionLabel = UILabel()
     let solicitarButton = UIButton(type: .system)
     
+    /// The initializer.
+    init(destino: infoRuta) {
+        
+        super.init(nibName: nil, bundle: nil)
+        
+        destinoDireccionLabel.text = destino.destino
+        ubicacionDireccionLabel.text = destino.origen
+        conductorLabel.text = destino.chofer
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
@@ -59,7 +73,7 @@ class MapaViewController: UIViewController, MapaDisplayLogic {
         solicitarButton.backgroundColor = .white
         solicitarButton.layer.cornerRadius = 5
         
-        conductorLabel.text = "Luis E Tovar (Spark/NBJ-12-IU)"
+        //conductorLabel.text = "Luis E Tovar (Spark/NBJ-12-IU)"
         conductorLabel.textAlignment = .left
         conductorLabel.textColor = .white
         
@@ -68,7 +82,7 @@ class MapaViewController: UIViewController, MapaDisplayLogic {
         destinoLabel.textColor = .black
         destinoLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 12)
         
-        destinoDireccionLabel.text = "Metro Zocalo, CDMX"
+        //destinoDireccionLabel.text = "Metro Zocalo, CDMX"
         destinoDireccionLabel.textAlignment = .left
         destinoDireccionLabel.textColor = .white
         
@@ -77,7 +91,7 @@ class MapaViewController: UIViewController, MapaDisplayLogic {
         ubicacionLabel.textColor = .black
         ubicacionLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 12)
         
-        ubicacionDireccionLabel.text = "Calz México-Tacuba 469-507, Popotla, Miguel Hidalgo, 11400 Ciudad de México, CDMX"
+        //ubicacionDireccionLabel.text = "Calz México-Tacuba 469-507, Popotla, Miguel Hidalgo, 11400 Ciudad de México, CDMX"
         ubicacionDireccionLabel.textAlignment = .left
         ubicacionDireccionLabel.textColor = .white
         ubicacionDireccionLabel.numberOfLines = 3

@@ -40,6 +40,15 @@ class PrincipalViewController: UIViewController, PrincipalDisplayLogic {
         return s
     }()
     
+    var destinoSel = infoRuta(id: 0, origen: "", destino: "", chofer: "")
+    
+    class RutaLabel: UILabel {
+        var rutaID: Int?
+        var destino: String?
+        var origen: String?
+        var chofer: String?
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
@@ -74,6 +83,7 @@ class PrincipalViewController: UIViewController, PrincipalDisplayLogic {
         
         destinoTextField.placeholder = "metro zocalo"
         destinoTextField.borderStyle = .roundedRect
+        destinoTextField.text = "m"
 
         buscarButton.setTitle("Buscar", for: .normal)
         buscarButton.tintColor = .white
@@ -81,24 +91,6 @@ class PrincipalViewController: UIViewController, PrincipalDisplayLogic {
         buscarButton.layer.cornerRadius = 5
         let tapGestureeee = UITapGestureRecognizer(target: self, action: #selector(buscarRutas))
         buscarButton.addGestureRecognizer(tapGestureeee)
-        
-        opcion1Label.text = "Luis E Tovar (Spark/NBJ-12-IU)"
-        opcion1Label.textAlignment = .left
-        opcion1Label.textColor = .white
-        // Habilitar interacción en el label
-        opcion1Label.isUserInteractionEnabled = true
-        // Crear gesto de tap
-        //let tapGesture = UITapGestureRecognizer(target: self, action: #selector(labelTocado))
-        //opcion1Label.addGestureRecognizer(tapGesture)
-        
-        opcion2Label.text = "Natalia Chavez (Aveo/PQO-33-DC)"
-        opcion2Label.textAlignment = .left
-        opcion2Label.textColor = .white
-        
-        opcion3Label.text = "Yareli Ibarra (FIAT/ACA-23-LK)"
-        opcion3Label.textAlignment = .left
-        opcion3Label.textColor = .white
-
 
         stackMain.addArrangedSubview(titleLabel)
         stackMain.addArrangedSubview(buscarLabel)
@@ -133,22 +125,35 @@ class PrincipalViewController: UIViewController, PrincipalDisplayLogic {
         }
     }
     
-    @objc func labelTocado() {
+    @objc func labelTocado(_ sender: UITapGestureRecognizer) {
         // Acción al tocar el label
-        router?.navigateToHome()
+        if let label = sender.view as? RutaLabel {
+            print("ID:", label.rutaID ?? 0)
+            print("Destino:", label.destino ?? "")
+            destinoSel.id = label.rutaID ?? 0
+            destinoSel.destino = label.destino ?? ""
+            destinoSel.origen = label.origen ?? ""
+            destinoSel.chofer = label.chofer ?? ""
+        }
+        
+        router?.navigateToMapa(destino: destinoSel)
     }
     
     func displayRutas(response: [Rutas]) {
         stackDestinos.arrangedSubviews.forEach { $0.removeFromSuperview() }
 
         response.forEach { ruta in
-            let label = UILabel()
-            label.text = ruta.destino
-            label.isUserInteractionEnabled = true
-            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(labelTocado))
-            label.addGestureRecognizer(tapGesture)
+            let labellll = RutaLabel()
+            labellll.text = ruta.destino
+            labellll.rutaID = ruta.id
+            labellll.destino = ruta.destino
+            labellll.origen = ruta.origen
+            labellll.chofer = ruta.idUsuario
+            labellll.isUserInteractionEnabled = true
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(labelTocado(_:)))
+            labellll.addGestureRecognizer(tapGesture)
 
-            stackDestinos.addArrangedSubview(label)
+            stackDestinos.addArrangedSubview(labellll)
         }
     }
 }

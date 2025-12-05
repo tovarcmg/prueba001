@@ -11,5 +11,8 @@ import Foundation
 struct Rutas: Decodable {
     
     let id: Int
+    let origen: String
     let destino: String
+    //let registro: Date
+    let idUsuario: String
 }

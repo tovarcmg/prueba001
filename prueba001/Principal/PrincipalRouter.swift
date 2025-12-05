@@ -8,9 +8,9 @@
 
 import UIKit
 
-@objc protocol PrincipalRoutingLogic {
+protocol PrincipalRoutingLogic {
     // Definir funciones de navegación aquí (ej. logout, ir a home, etc.)
-    func navigateToHome()
+    func navigateToMapa(destino: infoRuta)
 }
 
 protocol PrincipalDataPassing {
@@ -21,8 +21,8 @@ class PrincipalRouter: NSObject, PrincipalRoutingLogic, PrincipalDataPassing {
     weak var viewController: PrincipalViewController?
     var dataStore: PrincipalDataStore?
     
-    func navigateToHome() {
-        let destination = MapaViewController()
+    func navigateToMapa(destino: infoRuta) {
+        let destination = MapaViewController(destino: destino)
         viewController?.navigationController?.pushViewController(destination, animated: true)
     }
 }
