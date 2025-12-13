@@ -44,54 +44,67 @@ class LoginViewController: UIViewController, LoginDisplayLogic {
     }
 
     private func setupUI() {
-        view.backgroundColor = .lightGray
-        
+
+        view.backgroundColor = UIColor.systemGray6
+
         titleTextField.text = "appVenton"
         titleTextField.textAlignment = .center
-        titleTextField.textColor = .black
-        titleTextField.font = UIFont(name: "HelveticaNeue-Bold", size: 30)
-        
+        titleTextField.textColor = UIColor.label
+        titleTextField.font = UIFont.systemFont(ofSize: 36, weight: .bold)
+
         emailTextField.text = "luistovar"
         emailTextField.placeholder = "Correo"
-        emailTextField.borderStyle = .roundedRect
-        
-        passwordTextField.text = "123123"
-        passwordTextField.placeholder = "Contrasena"
-        passwordTextField.borderStyle = .roundedRect
-        passwordTextField.isSecureTextEntry = true
+        emailTextField.borderStyle = .none
+        emailTextField.backgroundColor = .white
+        emailTextField.layer.cornerRadius = 12
+        emailTextField.layer.borderWidth = 1
+        emailTextField.layer.borderColor = UIColor.systemGray4.cgColor
+        emailTextField.setLeftPaddingPoints(12)
+        emailTextField.heightAnchor.constraint(equalToConstant: 45).isActive = true
 
-        loginButton.setTitle("Login", for: .normal)
-        loginButton.addTarget(
-            self,
-            action: #selector(loginTapped),
-            for: .touchUpInside
-        )
+        passwordTextField.text = "123123"
+        passwordTextField.placeholder = "Contraseña"
+        passwordTextField.borderStyle = .none
+        passwordTextField.isSecureTextEntry = true
+        passwordTextField.backgroundColor = .white
+        passwordTextField.layer.cornerRadius = 12
+        passwordTextField.layer.borderWidth = 1
+        passwordTextField.layer.borderColor = UIColor.systemGray4.cgColor
+        passwordTextField.setLeftPaddingPoints(12)
+        passwordTextField.heightAnchor.constraint(equalToConstant: 45).isActive = true
+
+        loginButton.setTitle("Iniciar sesión", for: .normal)
+        loginButton.addTarget(self, action: #selector(loginTapped), for: .touchUpInside)
         loginButton.tintColor = .white
         loginButton.backgroundColor = .black
-        loginButton.layer.cornerRadius = 5
+        loginButton.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        loginButton.layer.cornerRadius = 14
+        loginButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
 
         resultLabel.textAlignment = .center
         resultLabel.numberOfLines = 0
+        resultLabel.textColor = .systemRed
+        resultLabel.font = UIFont.systemFont(ofSize: 15, weight: .medium)
 
         let stack = UIStackView(arrangedSubviews: [
-            titleTextField, emailTextField, passwordTextField, loginButton,
+            titleTextField,
+            emailTextField,
+            passwordTextField,
+            loginButton,
             resultLabel,
         ])
+
         stack.axis = .vertical
-        stack.spacing = 12
+        stack.spacing = 18
         stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.alignment = .fill
 
         view.addSubview(stack)
+
         NSLayoutConstraint.activate([
             stack.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            stack.leadingAnchor.constraint(
-                equalTo: view.leadingAnchor,
-                constant: 24
-            ),
-            stack.trailingAnchor.constraint(
-                equalTo: view.trailingAnchor,
-                constant: -24
-            ),
+            stack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32),
+            stack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -32),
         ])
     }
 
@@ -101,7 +114,7 @@ class LoginViewController: UIViewController, LoginDisplayLogic {
             email: emailTextField.text ?? "",
             password: passwordTextField.text ?? ""
         )
-        
+
         let credentialssss = ParentRequestBody(
             usuario: emailTextField.text ?? "",
             contrasena: passwordTextField.text ?? ""
@@ -111,27 +124,31 @@ class LoginViewController: UIViewController, LoginDisplayLogic {
     }
 
     func displayLoginResult(viewModel: Login.Authenticate.ViewModel) {
-        //DispatchQueue.main.async {
         let resp = viewModel.displayMessage
-        
+
         if resp == "like" {
             router?.navigateToHome()
-        }else{
+        } else {
             self.resultLabel.text = viewModel.displayMessage
         }
-        //}
     }
 
     func hideKeyboardWhenTapped() {
-        let tap = UITapGestureRecognizer(
-            target: self,
-            action: #selector(dismissKeyboard)
-        )
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
     }
 
     @objc func dismissKeyboard() {
         view.endEditing(true)
+    }
+}
+
+
+extension UITextField {
+    func setLeftPaddingPoints(_ amount: CGFloat){
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: amount, height: self.frame.height))
+        self.leftView = paddingView
+        self.leftViewMode = .always
     }
 }
